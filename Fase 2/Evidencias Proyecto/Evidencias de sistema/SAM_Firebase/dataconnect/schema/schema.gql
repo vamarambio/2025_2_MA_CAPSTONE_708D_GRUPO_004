@@ -1,0 +1,54 @@
+type User @table {
+  firebaseAuthId: String!
+  displayName: String!
+  userType: String!
+  createdAt: Timestamp!
+  email: String
+  phoneNumber: String
+  photoUrl: String
+}
+
+type EmergencyAlert @table {
+  user: User!
+  alertType: String!
+  status: String!
+  latitude: Float!
+  longitude: Float!
+  createdAt: Timestamp!
+  message: String
+  resolvedAt: Timestamp
+}
+
+type Course @table {
+  courseCode: String!
+  courseName: String!
+  semester: String!
+  year: Int!
+  teacher: User!
+  createdAt: Timestamp!
+  roomNumber: String
+}
+
+type Student @table {
+  studentId: String!
+  firstName: String!
+  lastName: String!
+  createdAt: Timestamp!
+  email: String
+  phoneNumber: String
+}
+
+type Enrollment @table(key: ["course", "student"]) {
+  course: Course!
+  student: Student!
+  createdAt: Timestamp!
+}
+
+type StudentStatus @table {
+  emergencyAlert: EmergencyAlert!
+  student: Student!
+  course: Course!
+  status: String!
+  createdAt: Timestamp!
+  notes: String
+}

@@ -1,0 +1,66 @@
+mutation CreateSeedData @transaction @auth(level: PUBLIC, insecureReason: "This operation is used to populate the database with seed data.") {
+  user_insertMany(data: [
+    {
+      id: "550e8400-e29b-41d4-a716-446655440000",
+      createdAt: "2024-04-26T00:00:00Z",
+      displayName: "Demo User 1",
+      firebaseAuthId: "demoauthid1",
+      userType: "student"
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440001",
+      createdAt: "2024-04-26T00:00:00Z",
+      displayName: "Demo User 2",
+      firebaseAuthId: "demoauthid2",
+      userType: "teacher"
+    }
+  ])
+  student_insertMany(data: [
+    {
+      id: "650e8400-e29b-41d4-a716-446655440002",
+      createdAt: "2024-04-26T00:00:00Z",
+      firstName: "Demo",
+      lastName: "Student 1",
+      studentId: "12345"
+    },
+    {
+      id: "750e8400-e29b-41d4-a716-446655440003",
+      createdAt: "2024-04-26T00:00:00Z",
+      firstName: "Demo",
+      lastName: "Student 2",
+      studentId: "67890"
+    }
+  ])
+  course_insertMany(data: [
+    {
+      id: "850e8400-e29b-41d4-a716-446655440004",
+      teacherId: "550e8400-e29b-41d4-a716-446655440001",
+      courseCode: "CS101",
+      courseName: "Introduction to Computer Science",
+      createdAt: "2024-04-26T00:00:00Z",
+      semester: "Fall",
+      year: 2024
+    },
+    {
+      id: "950e8400-e29b-41d4-a716-446655440005",
+      teacherId: "550e8400-e29b-41d4-a716-446655440001",
+      courseCode: "MA201",
+      courseName: "Calculus II",
+      createdAt: "2024-04-26T00:00:00Z",
+      semester: "Spring",
+      year: 2025
+    }
+  ])
+  enrollment_insertMany(data: [
+    {
+      courseId: "850e8400-e29b-41d4-a716-446655440004",
+      studentId: "650e8400-e29b-41d4-a716-446655440002",
+      createdAt: "2024-04-26T00:00:00Z"
+    },
+    {
+      courseId: "950e8400-e29b-41d4-a716-446655440005",
+      studentId: "750e8400-e29b-41d4-a716-446655440003",
+      createdAt: "2024-04-26T00:00:00Z"
+    }
+  ])
+}

@@ -1,0 +1,38 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Duoc Assist</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-item [routerLink]="['/qr-scan']" detail="true" button>
+      <ion-icon name="qr-code-outline" slot="start"></ion-icon>
+      <ion-label>Escanear QR</ion-label>
+    </ion-item>
+    
+    <ion-item [routerLink]="['/create-request']" [queryParams]="{ type: 'enfermeria' }" detail="true" button>
+      <ion-icon name="medkit-outline" slot="start"></ion-icon>
+      <ion-label>Crear Solicitud (Enfermería)</ion-label>
+    </ion-item>
+
+    <ion-item [routerLink]="['/classroom-history']" [queryParams]="{ codeValue: 'MAIPU-P1-L104' }" detail="true" button>
+      <ion-icon name="calendar-outline" slot="start"></ion-icon>
+      <ion-label>Historial de Sala (L104)</ion-label>
+    </ion-item>
+
+    <ion-item [routerLink]="['/export-report']" detail="true" button>
+      <ion-icon name="document-text-outline" slot="start"></ion-icon>
+      <ion-label>Exportar Reporte</ion-label>
+    </ion-item>
+
+    <ion-item (click)="logout()" detail="false" button color="danger">
+      <ion-icon name="log-out-outline" slot="start"></ion-icon>
+      <ion-label>Cerrar Sesión</ion-label>
+    </ion-item>
+    </ion-list>
+
+  <app-sala-selector></app-sala-selector>
+  <app-request-card title="Ejemplo de Tarjeta" description="Así se ve tu componente."></app-request-card>
+
+</ion-content>

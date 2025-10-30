@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Escanear QR</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <p>Aquí pondrías la cámara para escanear.</p>
+
+  <ion-button (click)="testScanFunction()" expand="block" color="success">
+    Test (Simular Escaneo L104)
+  </ion-button>
+</ion-content>

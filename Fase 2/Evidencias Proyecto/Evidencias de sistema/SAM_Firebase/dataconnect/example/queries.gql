@@ -1,0 +1,41 @@
+mutation CreateStudent @auth(level: USER) {
+  student_insert(data: {
+    firstName: "John",
+    lastName: "Doe",
+    studentId: "12345",
+    createdAt_expr: "request.time"
+  })
+}
+
+query GetEmergencyAlertsForUser($userId: UUID!) @auth(level: USER) {
+  emergencyAlerts(where: {userId: {eq: $userId}}) {
+    id
+    alertType
+    message
+    latitude
+    longitude
+    createdAt
+    resolvedAt
+    status
+  }
+}
+
+mutation UpdateCourseRoomNumber($courseId: UUID!, $roomNumber: String!) @auth(level: USER) {
+  course_update(
+    key: { id: $courseId }
+    data: { roomNumber: $roomNumber }
+  )
+}
+
+query ListHighPriorityEmergencyAlerts @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public") {
+  emergencyAlerts(where: {alertType: {eq: "HighPriority"}}) {
+    id
+    alertType
+    message
+    latitude
+    longitude
+    createdAt
+    resolvedAt
+    status
+  }
+}
