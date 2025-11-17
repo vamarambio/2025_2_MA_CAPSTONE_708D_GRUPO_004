@@ -1,11 +1,26 @@
-// frontend/src/app/screens/home/home.page.ts
 import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router'; // 1. Importa Router
+import { RouterModule, Router } from '@angular/router';
 import { RequestCardComponent } from 'src/app/components/request-card/request-card.component';
 import { SalaSelectorComponent } from 'src/app/components/sala-selector/sala-selector.component';
-import { FirebaseService } from 'src/app/services/firebase.service'; // 2. Importa Firebase
+import { FirebaseService } from 'src/app/services/firebase.service';
+
+// 1. Importamos la función para registrar íconos
+import { addIcons } from 'ionicons';
+
+// 2. Importamos los íconos específicos que usamos en el HTML
+import { 
+  qrCodeOutline, 
+  timeOutline, 
+  documentTextOutline, 
+  logOutOutline,
+  alertCircleOutline, 
+  shieldCheckmarkOutline, 
+  laptopOutline, 
+  medkitOutline,
+  chevronForwardOutline 
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-home',
@@ -22,15 +37,26 @@ import { FirebaseService } from 'src/app/services/firebase.service'; // 2. Impor
 })
 export class HomePage {
   
-  // 3. Pide Firebase y Router en el constructor
   constructor(
     private firebaseService: FirebaseService,
     private router: Router
-  ) {}
+  ) {
+    // 3. Registramos los íconos para que Ionic los reconozca
+    addIcons({ 
+      qrCodeOutline, 
+      timeOutline, 
+      documentTextOutline, 
+      logOutOutline,
+      alertCircleOutline,
+      shieldCheckmarkOutline,
+      laptopOutline,
+      medkitOutline,
+      chevronForwardOutline
+    });
+  }
 
-  // 4. Esta es la función para el botón
   async logout() {
     await this.firebaseService.logout();
-    this.router.navigate(['/login']); // Redirige a login
+    this.router.navigate(['/login']);
   }
 }

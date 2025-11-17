@@ -1,0 +1,28 @@
+/* frontend/src/app/screens/login/login.page.scss */
+
+/* Oculta la barra de herramientas superior */
+ion-header {
+  display: none;
+}
+
+/*FUERZA el fondo oscuro en esta página */
+ion-content {
+  --background: #121212; // Fondo oscuro estándar
+}
+
+/*Centra el título y lo hace VISIBLE (blanco) */
+h1 {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-weight: bold;
+  color: #ffffff; // <-- Color blanco para que se vea
+}
+
+/* Le da el estilo gris de "input relleno" del mockup 
+    a los campos de texto
+*/
+ion-item[fill="solid"] {
+  --background: #2c2c2e; // Un gris oscuro, como en el mockup
+  border-radius: 10px; // Redondeado como el mockup
+  margin-bottom: 15px; // Espacio
+}

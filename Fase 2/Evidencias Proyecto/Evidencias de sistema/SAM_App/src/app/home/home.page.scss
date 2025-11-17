@@ -1,27 +1,98 @@
-#container {
+ion-toolbar {
+  --background: #000000;
+}
+
+.header-section {
+  margin-bottom: 20px;
+  p { color: #9d9fa6; margin-top: 5px; }
+}
+
+/* === TARJETAS GENERALES === */
+.menu-card {
+  background-color: #1c1c1e;
+  border-radius: 20px;
+  padding: 20px;
   text-align: center;
+  height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.1s;
+  margin-bottom: 10px;
 
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  &:active { transform: scale(0.98); }
+
+  h3 {
+    font-size: 14px;
+    margin-top: 15px;
+    font-weight: 600;
+    color: white;
+  }
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+/* Tarjeta Horizontal (Reportes) */
+.menu-card.horizontal {
+  height: 80px;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 0 20px;
+  
+  h3 { margin-top: 0; margin-left: 15px; font-size: 16px; }
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+/* === ESTILOS DEL ACORDEÓN === */
+.help-accordion {
+  background: #1c1c1e;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-#container a {
-  text-decoration: none;
+.accordion-header {
+  --background: #1c1c1e;
+  --color: white;
+  --min-height: 90px; /* Altura similar a la tarjeta horizontal */
+  
+  h2 { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+  p { color: #9ca3af; font-size: 13px; margin: 0; }
 }
+
+.accordion-content {
+  background: #252528; /* Fondo un poco más claro al abrir */
+  
+  ion-item {
+    --background: transparent;
+    --color: #e5e7eb;
+    --border-color: #3f3f46;
+    font-size: 15px;
+  }
+}
+
+/* === ÍCONOS === */
+.card-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  
+  ion-icon { font-size: 24px; color: white; }
+}
+
+.small-icon {
+  width: 45px;
+  height: 45px;
+  ion-icon { font-size: 22px; }
+}
+
+/* Colores */
+.bg-blue { background: linear-gradient(135deg, #3880ff, #1c5dc7); }
+.bg-red { background: linear-gradient(135deg, #eb445a, #a3162e); }
+.bg-green { background: linear-gradient(135deg, #2dd36f, #1f9e52); }
+.bg-yellow { background: linear-gradient(135deg, #ffc409, #c99a05); }
+
+.ripple-parent { position: relative; overflow: hidden; }

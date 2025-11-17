@@ -35,3 +35,35 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+/* frontend/src/global.scss */
+
+/* 1. Estilo Global para Inputs (Cajas grises redondeadas) */
+.custom-input {
+  --background: #2c2c2e; /* Gris oscuro */
+  --color: #ffffff;      /* Texto blanco */
+  --placeholder-color: #9d9fa6;
+  border-radius: 12px;   /* Bordes muy redondos */
+  margin-bottom: 16px;   /* Espacio abajo */
+  --padding-start: 15px;
+  box-shadow: none;
+}
+
+/* 2. Estilo Global para Títulos */
+h1, h2 {
+  color: #ffffff;
+  font-weight: 700; /* Negrita */
+}
+
+/* 3. Fondo General de la App (Negro puro para pantallas OLED) */
+ion-content {
+  --background: #000000; 
+}
+
+/* 4. Estilo para Tarjetas del Menú (Gris oscuro) */
+.menu-card {
+  --background: #1c1c1e;
+  --color: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  margin: 10px;
+}

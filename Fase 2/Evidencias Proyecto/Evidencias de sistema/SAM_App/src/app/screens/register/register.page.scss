@@ -1,0 +1,26 @@
+/* frontend/src/app/screens/register/register.page.scss */
+
+/* Oculta la barra de herramientas superior */
+ion-header {
+  display: none;
+}
+
+/* Fuerza el fondo oscuro en esta página */
+ion-content {
+  --background: #121212;
+}
+
+/* Centra el título y lo hace visible */
+h1 {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+/* Le da el estilo gris de "input relleno" */
+ion-item[fill="solid"] {
+  --background: #2c2c2e;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}

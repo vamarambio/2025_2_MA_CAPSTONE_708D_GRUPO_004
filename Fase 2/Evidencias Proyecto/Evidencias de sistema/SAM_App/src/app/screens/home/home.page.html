@@ -1,38 +1,88 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
+<ion-header class="ion-no-border">
+  <ion-toolbar color="black">
     <ion-title>Duoc Assist</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()" color="danger">
+        <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-list>
-    <ion-item [routerLink]="['/qr-scan']" detail="true" button>
-      <ion-icon name="qr-code-outline" slot="start"></ion-icon>
-      <ion-label>Escanear QR</ion-label>
-    </ion-item>
+<ion-content class="ion-padding">
+
+  <div class="header-section">
+    <h1>Hola, Estudiante 👋</h1>
+    <p>¿Qué necesitas hacer hoy?</p>
+  </div>
+
+  <ion-grid class="ion-no-padding">
     
-    <ion-item [routerLink]="['/create-request']" [queryParams]="{ type: 'enfermeria' }" detail="true" button>
-      <ion-icon name="medkit-outline" slot="start"></ion-icon>
-      <ion-label>Crear Solicitud (Enfermería)</ion-label>
-    </ion-item>
+    <ion-row>
+      <ion-col size="6" style="padding-right: 5px;">
+        <div class="menu-card ion-activatable ripple-parent" [routerLink]="['/qr-scan']">
+          <ion-icon name="qr-code-outline" class="big-icon color-blue"></ion-icon>
+          <h3>Escanear QR</h3>
+          <ion-ripple-effect></ion-ripple-effect>
+        </div>
+      </ion-col>
 
-    <ion-item [routerLink]="['/classroom-history']" [queryParams]="{ codeValue: 'MAIPU-P1-L104' }" detail="true" button>
-      <ion-icon name="calendar-outline" slot="start"></ion-icon>
-      <ion-label>Historial de Sala (L104)</ion-label>
-    </ion-item>
+      <ion-col size="6" style="padding-left: 5px;">
+        <div class="menu-card ion-activatable ripple-parent" [routerLink]="['/classroom-history']" [queryParams]="{ codeValue: 'MAIPU-P1-L104' }">
+          <ion-icon name="time-outline" class="big-icon color-green"></ion-icon>
+          <h3>Historial</h3>
+          <ion-ripple-effect></ion-ripple-effect>
+        </div>
+      </ion-col>
+    </ion-row>
 
-    <ion-item [routerLink]="['/export-report']" detail="true" button>
-      <ion-icon name="document-text-outline" slot="start"></ion-icon>
-      <ion-label>Exportar Reporte</ion-label>
-    </ion-item>
+    <ion-row class="ion-margin-top">
+      <ion-col size="12">
+        <ion-accordion-group class="help-accordion">
+          <ion-accordion value="help">
+            
+            <ion-item slot="header" lines="none" class="accordion-header">
+              <ion-icon name="alert-circle-outline" slot="start" class="medium-icon color-red"></ion-icon>
+              <ion-label>
+                <h2>Solicitar Ayuda</h2>
+                <p>Guardias, TI, Enfermería</p>
+              </ion-label>
+            </ion-item>
 
-    <ion-item (click)="logout()" detail="false" button color="danger">
-      <ion-icon name="log-out-outline" slot="start"></ion-icon>
-      <ion-label>Cerrar Sesión</ion-label>
-    </ion-item>
-    </ion-list>
+            <div slot="content" class="accordion-content">
+              
+              <ion-item button detail="true" [routerLink]="['/create-request']" [queryParams]="{ type: 'guardias' }" lines="full">
+                <ion-icon name="shield-checkmark-outline" slot="start" color="success"></ion-icon>
+                <ion-label>Guardias</ion-label>
+              </ion-item>
 
-  <app-sala-selector></app-sala-selector>
-  <app-request-card title="Ejemplo de Tarjeta" description="Así se ve tu componente."></app-request-card>
+              <ion-item button detail="true" [routerLink]="['/create-request']" [queryParams]="{ type: 'cetecom' }" lines="full">
+                <ion-icon name="laptop-outline" slot="start" color="tertiary"></ion-icon>
+                <ion-label>Soporte TI (Cetecom)</ion-label>
+              </ion-item>
+
+              <ion-item button detail="true" [routerLink]="['/create-request']" [queryParams]="{ type: 'enfermeria' }" lines="none">
+                <ion-icon name="medkit-outline" slot="start" color="danger"></ion-icon>
+                <ion-label>Primeros Auxilios</ion-label>
+              </ion-item>
+
+            </div>
+          </ion-accordion>
+        </ion-accordion-group>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+        <div class="menu-card horizontal ion-activatable ripple-parent" [routerLink]="['/export-report']">
+          <ion-icon name="document-text-outline" class="medium-icon color-yellow"></ion-icon>
+          <h3>Exportar Mis Reportes</h3>
+          <ion-icon name="chevron-forward-outline" slot="end" color="medium" style="margin-left: auto;"></ion-icon>
+          <ion-ripple-effect></ion-ripple-effect>
+        </div>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
 
 </ion-content>

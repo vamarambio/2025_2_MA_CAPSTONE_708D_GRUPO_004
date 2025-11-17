@@ -1,0 +1,94 @@
+ion-toolbar { --background: #000000; }
+
+.header-section {
+  margin-bottom: 20px;
+  p { color: #9d9fa6; margin-top: 5px; }
+}
+
+/* === TARJETAS GENERALES === */
+.menu-card {
+  background-color: #1c1c1e;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.1s;
+  margin-bottom: 10px;
+
+  &:active { transform: scale(0.98); }
+
+  h3 {
+    font-size: 15px;
+    margin-top: 12px;
+    font-weight: 600;
+    color: white;
+  }
+}
+
+/* Tarjeta Horizontal */
+.menu-card.horizontal {
+  height: 80px;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 0 20px;
+  h3 { margin-top: 0; margin-left: 15px; }
+}
+
+/* === TAMAÑOS DE ÍCONOS === */
+/* Sin círculos de fondo, solo el ícono grande */
+.big-icon {
+  font-size: 48px; /* Ícono grande para las tarjetas principales */
+  margin-bottom: 5px;
+}
+
+.medium-icon {
+  font-size: 32px; /* Ícono mediano para listas */
+}
+
+/* === COLORES DE LOS ÍCONOS === */
+.color-blue { color: #3880ff; }
+.color-green { color: #2dd36f; }
+.color-red { color: #eb445a; }
+.color-yellow { color: #ffc409; }
+
+
+/* === ACORDEÓN === */
+.help-accordion {
+  background: #1c1c1e;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.accordion-header {
+  --background: #1c1c1e;
+  --color: white;
+  --min-height: 90px;
+  
+  h2 { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+  p { color: #9ca3af; font-size: 13px; margin: 0; }
+}
+
+.accordion-content {
+  background: #252528;
+  
+  ion-item {
+    --background: transparent;
+    --color: #e5e7eb;
+    --border-color: #3f3f46;
+    font-size: 15px;
+    
+    /* Íconos dentro del acordeón */
+    ion-icon {
+      font-size: 22px;
+      margin-right: 12px;
+    }
+  }
+}
+
+.ripple-parent { position: relative; overflow: hidden; }

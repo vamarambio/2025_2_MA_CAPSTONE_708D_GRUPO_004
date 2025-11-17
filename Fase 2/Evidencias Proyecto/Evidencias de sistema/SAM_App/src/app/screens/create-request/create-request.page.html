@@ -1,13 +1,31 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>create-request</ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar color="black">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ pageTitle }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">create-request</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  
+  <div class="ion-text-center ion-margin-bottom">
+    <p style="color: #999">Ingresa los detalles de tu solicitud.</p>
+  </div>
+
+  <ion-list>
+    <ion-item lines="none" class="custom-input">
+      <ion-input placeholder="Asunto (ej. Dolor de cabeza)" [(ngModel)]="titulo"></ion-input>
+    </ion-item>
+
+    <ion-item lines="none" class="custom-input" style="--min-height: 150px;">
+      <ion-textarea placeholder="Describe la situación..." [autoGrow]="true" [(ngModel)]="descripcion"></ion-textarea>
+    </ion-item>
+  </ion-list>
+
+  <ion-button (click)="enviarSolicitud()" expand="block" color="primary" shape="round" class="ion-margin-top" style="height: 50px; font-weight: bold;">
+    <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
+    ENVIAR AHORA
+  </ion-button>
+
 </ion-content>

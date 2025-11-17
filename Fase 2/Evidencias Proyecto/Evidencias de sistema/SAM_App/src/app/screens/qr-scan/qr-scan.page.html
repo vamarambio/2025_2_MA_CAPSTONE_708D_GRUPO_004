@@ -1,16 +1,25 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="black">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
-    <ion-title>Escanear QR</ion-title>
+    <ion-title>Escanear Sala</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <p>Aquí pondrías la cámara para escanear.</p>
+  
+  <div class="ion-text-center" style="margin-top: 50px;">
+    <div style="background: #1c1c1e; padding: 30px; border-radius: 20px; margin-bottom: 30px;">
+      <ion-icon name="qr-code-outline" style="font-size: 80px; color: #3880ff;"></ion-icon>
+      <h2 style="color: white;">Registrar Asistencia</h2>
+      <p style="color: #999;">Presiona el botón para abrir la cámara y escanear el código QR de la sala.</p>
+    </div>
 
-  <ion-button (click)="testScanFunction()" expand="block" color="success">
-    Test (Simular Escaneo L104)
-  </ion-button>
+    <ion-button (click)="startScan()" expand="block" size="large" shape="round" color="primary">
+      <ion-icon name="camera-outline" slot="start"></ion-icon>
+      ABRIR CÁMARA
+    </ion-button>
+  </div>
+
 </ion-content>

@@ -1,22 +1,21 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Login</ion-title>
-  </ion-toolbar>
-</ion-header>
 <ion-content class="ion-padding">
-  <ion-list>
-    <ion-item>
-      <ion-input label="Email" labelPlacement="floating" type="email" [(ngModel)]="email"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input label="Contraseña" labelPlacement="floating" type="password" [(ngModel)]="password"></ion-input>
-    </ion-item>
-  </ion-list>
-  <ion-button (click)="onLogin()" expand="block" class="ion-margin-top">
-    Iniciar Sesión
+  <div class="ion-text-center ion-margin-bottom" style="margin-top: 40px;">
+    <h1>Bienvenido</h1>
+    <p style="color: #aaa">Ingresa a tu cuenta Duoc Assist</p>
+  </div>
+
+  <ion-item lines="none" class="custom-input">
+    <ion-icon slot="start" name="mail-outline" color="medium"></ion-icon>
+    <ion-input placeholder="Correo Institucional" type="email" [(ngModel)]="email"></ion-input>
+  </ion-item>
+  
+  <ion-item lines="none" class="custom-input">
+    <ion-icon slot="start" name="lock-closed-outline" color="medium"></ion-icon>
+    <ion-input placeholder="Contraseña" type="password" [(ngModel)]="password"></ion-input>
+  </ion-item>
+
+  <ion-button (click)="onLogin()" expand="block" color="primary" shape="round" class="ion-margin-top" style="height: 50px; font-weight: bold;">
+    INICIAR SESIÓN
   </ion-button>
-  <ion-button [routerLink]="['/register']" expand="block" fill="clear">
-    ¿No tienes cuenta? Regístrate
-  </ion-button>
-  <p *ngIf="error" style="color: red; text-align: center;">{{ error }}</p>
-</ion-content>
+  
+  </ion-content>
