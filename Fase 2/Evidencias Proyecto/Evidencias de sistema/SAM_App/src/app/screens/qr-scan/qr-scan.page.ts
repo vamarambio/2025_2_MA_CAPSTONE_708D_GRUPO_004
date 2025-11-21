@@ -1,20 +1,18 @@
 import { Component } from '@angular/core';
-import { IonicModule, AlertController, Platform } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
+import { IonicModule, AlertController, Platform } from '@ionic/angular';
 import { FirebaseService } from 'src/app/services/firebase.service';
-
-// 1. Importamos el nuevo plugin y sus tipos
-import { BarcodeScanner, BarcodeFormat } from '@capacitor-mlkit/barcode-scanning';
+import { BarcodeScanner, BarcodeFormat, LensFacing } from '@capacitor-mlkit/barcode-scanning';
 
 @Component({
   selector: 'app-qr-scan',
   templateUrl: './qr-scan.page.html',
   styleUrls: ['./qr-scan.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule],
+  imports: [IonicModule, CommonModule]
 })
 export class QrScanPage {
-  
+
   constructor(
     private firebaseService: FirebaseService,
     private alertController: AlertController,
@@ -22,59 +20,51 @@ export class QrScanPage {
   ) {}
 
   async startScan() {
-    // Verificar si es móvil
+    // 1. Solo funciona en celular
     if (!this.platform.is('capacitor')) {
-      this.showAlert('Error', 'El escáner solo funciona en el teléfono.');
+      this.showAlert('Error', 'Usa un celular real para escanear.');
       return;
     }
 
     try {
-      // 1. Pedir Permisos (El plugin lo maneja)
-      const granted = await this.requestPermissions();
-      if (!granted) {
-        this.showAlert('Permiso denegado', 'Se necesita cámara para escanear.');
+      // 2. Pedir Permiso
+      const { camera } = await BarcodeScanner.requestPermissions();
+      if (camera !== 'granted' && camera !== 'limited') {
+        this.showAlert('Permiso', 'Se necesita cámara para escanear.');
         return;
       }
 
-      // 2. Iniciar el Escáner (Esto abre la cámara nativa automáticamente)
+      // 3. Iniciar Escáner (Abre la cámara nativa de Google)
+      // Esto pausará la app hasta que escanee algo
       const { barcodes } = await BarcodeScanner.scan({
-        formats: [BarcodeFormat.QrCode], // Solo buscamos QRs
+        formats: [BarcodeFormat.QrCode],
       });
 
-      // 3. Si leyó algo...
+      // 4. Procesar Resultado
       if (barcodes.length > 0) {
-        const scannedValue = barcodes[0].rawValue;
-        this.processQrCode(scannedValue);
+        const scannedContent = barcodes[0].rawValue;
+        this.processQrCode(scannedContent);
       }
 
     } catch (error: any) {
-      // Si el usuario cancela el escaneo, suele tirar error, lo manejamos suave
-      console.log('Error de escaneo:', error);
+      // Si el usuario cancela con "Atrás"
+      console.log('Escaneo cancelado o fallido', error);
     }
   }
 
-  async requestPermissions(): Promise<boolean> {
-    const { camera } = await BarcodeScanner.requestPermissions();
-    return camera === 'granted' || camera === 'limited';
-  }
-
   async processQrCode(content: string) {
-    console.log('QR Leído:', content);
-
     const user = this.firebaseService.auth.currentUser;
     if (!user) {
-      this.showAlert('Error', 'No hay usuario autenticado.');
+      this.showAlert('Error', 'No estás logueado.');
       return;
     }
 
     try {
-      const result = await this.firebaseService.validateQrAndCreateAttendance(
-        content,
-        user.uid
-      );
-      this.showAlert('¡Éxito!', `Asistencia registrada en sala: ${content}`);
+      // Llama a tu backend
+      await this.firebaseService.validateQrAndCreateAttendance(content, user.uid);
+      this.showAlert('¡Éxito!', 'Asistencia registrada correctamente.');
     } catch (error: any) {
-      this.showAlert('Error', error.message || 'Error al registrar asistencia.');
+      this.showAlert('Error', error.message || 'No se pudo registrar.');
     }
   }
 

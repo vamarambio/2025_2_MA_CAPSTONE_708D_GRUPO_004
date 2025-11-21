@@ -1,21 +1,35 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar style="--background: transparent;">
+  </ion-toolbar>
+</ion-header>
+
 <ion-content class="ion-padding">
+  
   <div class="ion-text-center ion-margin-bottom" style="margin-top: 40px;">
     <h1>Bienvenido</h1>
     <p style="color: #aaa">Ingresa a tu cuenta Duoc Assist</p>
   </div>
 
-  <ion-item lines="none" class="custom-input">
-    <ion-icon slot="start" name="mail-outline" color="medium"></ion-icon>
-    <ion-input placeholder="Correo Institucional" type="email" [(ngModel)]="email"></ion-input>
-  </ion-item>
-  
-  <ion-item lines="none" class="custom-input">
-    <ion-icon slot="start" name="lock-closed-outline" color="medium"></ion-icon>
-    <ion-input placeholder="Contraseña" type="password" [(ngModel)]="password"></ion-input>
-  </ion-item>
+  <ion-list>
+    <ion-item lines="none" class="custom-input">
+      <ion-icon slot="start" name="mail-outline" color="medium"></ion-icon>
+      <ion-input placeholder="Correo Institucional" type="email" [(ngModel)]="email"></ion-input>
+    </ion-item>
+    
+    <ion-item lines="none" class="custom-input">
+      <ion-icon slot="start" name="lock-closed-outline" color="medium"></ion-icon>
+      <ion-input placeholder="Contraseña" type="password" [(ngModel)]="password"></ion-input>
+    </ion-item>
+  </ion-list>
 
   <ion-button (click)="onLogin()" expand="block" color="primary" shape="round" class="ion-margin-top" style="height: 50px; font-weight: bold;">
     INICIAR SESIÓN
   </ion-button>
   
-  </ion-content>
+  <ion-button [routerLink]="['/register']" expand="block" fill="clear" class="ion-margin-top">
+    <span style="color: #aaa">¿No tienes cuenta?</span>
+    <span style="color: #3880ff; font-weight: bold; margin-left: 5px;">Regístrate</span>
+  </ion-button>
+  <p *ngIf="error" style="color: #eb445a; text-align: center; margin-top: 20px; font-weight: bold;">{{ error }}</p>
+
+</ion-content>
