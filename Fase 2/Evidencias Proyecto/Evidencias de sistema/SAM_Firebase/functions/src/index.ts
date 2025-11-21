@@ -1,30 +1,29 @@
 // backend/functions/src/index.ts
 
-import { https } from 'firebase-functions/v2';
+// 1. ¡ESTE IMPORT ES EL CORRECTO PARA QUE TOME EL V1, SINO VA A TRATAR DE CORRER LA LIBRERIA V2 NS ES RARISIMO!
+import * as functions from 'firebase-functions'; 
 import * as admin from 'firebase-admin';
+
+// 2. IMPORTAMOS EL TIPO 'CallableContext' DESDE SU LUGAR CORRECTO EN V1
+import { CallableContext } from 'firebase-functions/v1/https';
 
 admin.initializeApp();
 const db = admin.firestore();
 
 /**
- * Cloud Function para validar QR y registrar asistencia (SINTAXIS V2)
+ * Cloud Function para validar QR y registrar asistencia (SINTAXIS V1)
  */
-export const validateQrAndCreateAttendance = https.onCall(async (request) => {
-  
-  // --- ¡ESTE ES EL CAMBIO DEL PASO 5.9! ---
-  // El "guardia" está ACTIVADO (sin // al inicio)
-  if (!request.auth || !request.auth.uid) {
-    throw new https.HttpsError('unauthenticated', 'Se requiere autenticación.');
+// 3. Esta línea ahora funcionará porque usa 'CallableContext' de V1
+export const validateQrAndCreateAttendance = functions.https.onCall(async (data: any, context: CallableContext) => {
+
+  if (!context.auth || !context.auth.uid) {
+    throw new functions.https.HttpsError('unauthenticated', 'Se requiere autenticación.');
   }
-  // --- FIN DEL CAMBIO ---
 
-  // 'data' ahora es 'request.data'
-  const { codeValue, studentId } = request.data;
+  const { codeValue, studentId } = data;
 
-  // Verifica que el ID del estudiante que llama sea el mismo que el ID en los datos
-  // (Esta es una buena práctica de seguridad)
-  if (request.auth.uid !== studentId) {
-     throw new https.HttpsError('permission-denied', 'No puedes registrar asistencia para otro usuario.');
+  if (context.auth.uid !== studentId) {
+     throw new functions.https.HttpsError('permission-denied', 'No puedes registrar asistencia para otro usuario.');
   }
 
   const presenceRef = db.collection('class_presence');
@@ -34,7 +33,7 @@ export const validateQrAndCreateAttendance = https.onCall(async (request) => {
   const presenceSnapshot = await activeClaseQuery.get();
 
   if (presenceSnapshot.empty) {
-    throw new https.HttpsError('invalid-argument', 'No hay clase activa (QR desfasado).');
+    throw new functions.https.HttpsError('invalid-argument', 'No hay clase activa (QR desfasado).');
   }
 
   const docentePresente = presenceSnapshot.docs[0].data();
@@ -42,7 +41,7 @@ export const validateQrAndCreateAttendance = https.onCall(async (request) => {
   const studentRef = db.collection('users').doc(studentId);
   const studentDoc = await studentRef.get();
   if (!studentDoc.exists || studentDoc.data()?.role !== 'student') {
-    throw new https.HttpsError('not-found', 'Estudiante no hallado.');
+    throw new functions.https.HttpsError('not-found', 'Estudiante no hallado.');
   }
 
   await db.collection('attendances').add({
@@ -60,26 +59,27 @@ export const validateQrAndCreateAttendance = https.onCall(async (request) => {
 });
 
 /**
- * Cloud Function para asignar solicitudes y notificar (SINTAXIS V2)
+ * Cloud Function para asignar solicitudes y notificar (SINTAXIS V1)
  */
-export const assignRequest = https.onCall(async (request) => {
-  // El "guardia" de esta función (el usuario debe estar logueado)
-  const uid = request.auth?.uid;
+// 3. Esta línea también usará 'CallableContext' de V1
+export const assignRequest = functions.https.onCall(async (data: any, context: CallableContext) => {
+
+  const uid = context.auth?.uid;
   if (!uid) {
-    throw new https.HttpsError('unauthenticated', 'No autenticado');
+    throw new functions.https.HttpsError('unauthenticated', 'No autenticado');
   }
 
-  const { requestId, action } = request.data;
+  const { requestId, action } = data;
 
   const reqRef = db.collection('requests').doc(requestId);
   const reqSnap = await reqRef.get();
   if (!reqSnap.exists) {
-    throw new https.HttpsError('not-found', 'Solicitud no encontrada');
+    throw new functions.https.HttpsError('not-found', 'Solicitud no encontrada');
   }
 
   const reqData = reqSnap.data();
   if (!reqData) {
-    throw new https.HttpsError('not-found', 'Datos de solicitud no encontrados');
+    throw new functions.https.HttpsError('not-found', 'Datos de solicitud no encontrados');
   }
 
   const userSnap = await db.collection('users').doc(uid).get();
@@ -92,11 +92,11 @@ export const assignRequest = https.onCall(async (request) => {
   };
 
   if (!validTransitions[action]) {
-    throw new https.HttpsError('invalid-argument', 'Transición no válida.');
+    throw new functions.https.HttpsError('invalid-argument', 'Transición no válida.');
   }
 
   if (role !== reqData.type && role !== 'admin') {
-    throw new https.HttpsError('permission-denied', 'Rol no autorizado');
+    throw new functions.https.HttpsError('permission-denied', 'Rol no autorizado');
   }
 
   const update: any = { status: action };
