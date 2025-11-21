@@ -2,17 +2,36 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    // Los usuarios pueden leer y escribir su propio documento
     match /users/{uid} {
-      // ... (el resto de tus reglas) ...
+      allow read, write: if request.auth.uid == uid;
     }
+
+    // Los profesores pueden crear su presencia
+    // El admin y servicios pueden leer la presencia
     match /class_presence/{docId} {
-      // ...etc...
+      allow create: if request.auth != null &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "teacher";
+      allow read: if request.auth != null &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ["admin", "enfermeria", "guardias"];
     }
+
+    // Los estudiantes pueden crear y leer su propia asistencia
     match /attendances/{docId} {
-      // ...etc...
+      allow create: if request.auth.uid == request.resource.data.studentId;
+      allow read: if request.auth.uid == resource.data.studentId;
     }
+
+    // Reglas para las solicitudes (enfermería, etc.)
     match /requests/{docId} {
-      // ...etc...
+      allow create: if request.auth.uid == request.resource.data.requesterId;
+      allow read: if request.auth.uid == resource.data.requesterId ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == resource.data.type ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+      allow update: if request.auth.uid == resource.data.requesterId ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == resource.data.type ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
     }
   }
 }
