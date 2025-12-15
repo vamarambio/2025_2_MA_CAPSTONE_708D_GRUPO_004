@@ -17,11 +17,12 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 export class CreateRequestPage implements OnInit {
 
   public pageTitle: string = 'Crear Solicitud';
-  private requestType: string = 'general';
+  public requestType: string = 'general';
 
   // Variables para el formulario
   titulo: string = '';
   descripcion: string = '';
+  salaId: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -35,6 +36,13 @@ export class CreateRequestPage implements OnInit {
   ngOnInit() {
     // 1. Detectamos si es Guardias, TI o Enfermería
     const type = this.route.snapshot.queryParamMap.get('type');
+    const sala = this.route.snapshot.queryParamMap.get('salaId');
+
+    if (sala) {
+      this.salaId = sala;
+      this.pageTitle = `Reporte desde ${sala}`;
+    }
+
     if (type) {
       this.requestType = type;
       if (type === 'guardias') this.pageTitle = 'Reportar a Seguridad';
@@ -61,6 +69,7 @@ export class CreateRequestPage implements OnInit {
       titulo: this.titulo,
       descripcion: this.descripcion,
       type: this.requestType,
+      salaId: this.salaId,
       requesterId: user.uid,
       requesterEmail: user.email,
       status: 'open',
@@ -70,11 +79,11 @@ export class CreateRequestPage implements OnInit {
     // 4. Aquí ocurre la magia del envio  a Firebase :D
     try {
       await this.firebaseService.createRequest(newRequest);
-      
+
       // Mensaje de éxito y volver atrás
       await this.showAlert('Enviado', 'Tu solicitud ha sido recibida correctamente.');
-      this.navCtrl.back(); 
-      
+      this.navCtrl.back();
+
     } catch (error: any) {
       console.error(error);
       this.showAlert('Error', 'No se pudo enviar la solicitud.');

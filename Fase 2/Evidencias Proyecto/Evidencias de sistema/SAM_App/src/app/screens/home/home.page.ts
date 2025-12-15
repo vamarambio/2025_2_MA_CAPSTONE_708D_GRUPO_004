@@ -1,25 +1,25 @@
 import { Component } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, AlertController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { RequestCardComponent } from 'src/app/components/request-card/request-card.component';
-import { SalaSelectorComponent } from 'src/app/components/sala-selector/sala-selector.component';
+
+
 import { FirebaseService } from 'src/app/services/firebase.service';
-
-// 1. Importamos la función para registrar íconos
+import { PushService } from 'src/app/services/push.service';
 import { addIcons } from 'ionicons';
-
-// 2. Importamos los íconos específicos que usamos en el HTML
-import { 
-  qrCodeOutline, 
-  timeOutline, 
-  documentTextOutline, 
+import {
+  qrCodeOutline,
+  timeOutline,
+  documentTextOutline,
   logOutOutline,
-  alertCircleOutline, 
-  shieldCheckmarkOutline, 
-  laptopOutline, 
+  alertCircleOutline,
+  shieldCheckmarkOutline,
+  laptopOutline,
   medkitOutline,
-  chevronForwardOutline 
+  chevronForwardOutline,
+  constructOutline,
+  settingsOutline,
+  barChartOutline
 } from 'ionicons/icons';
 
 @Component({
@@ -31,32 +31,86 @@ import {
     IonicModule,
     CommonModule,
     RouterModule,
-    RequestCardComponent,
-    SalaSelectorComponent,
+
+
   ],
 })
 export class HomePage {
-  
+
+  isAdmin = false;
+
   constructor(
     private firebaseService: FirebaseService,
-    private router: Router
+    private router: Router,
+    private alertController: AlertController,
+    private pushService: PushService
   ) {
-    // 3. Registramos los íconos para que Ionic los reconozca
-    addIcons({ 
-      qrCodeOutline, 
-      timeOutline, 
-      documentTextOutline, 
+    this.pushService.init();
+    addIcons({
+      qrCodeOutline,
+      timeOutline,
+      documentTextOutline,
       logOutOutline,
       alertCircleOutline,
       shieldCheckmarkOutline,
       laptopOutline,
       medkitOutline,
-      chevronForwardOutline
+      chevronForwardOutline,
+      constructOutline,
+      settingsOutline,
+      barChartOutline
     });
+
+    this.checkRole();
+  }
+
+  async checkRole() {
+    const user = this.firebaseService.auth.currentUser;
+    if (user) {
+      const role = await this.firebaseService.getUserRole(user.uid);
+      if (role === 'admin') this.isAdmin = true;
+    }
   }
 
   async logout() {
     await this.firebaseService.logout();
     this.router.navigate(['/login']);
+  }
+
+  // --- LÓGICA DEMO ---
+  async iniciarClaseDemo() {
+    const confirm = await this.alertController.create({
+      header: 'Modo Profesor',
+      message: 'Ingresa el ID de la Sala para iniciar la clase:',
+      inputs: [
+        {
+          name: 'salaId',
+          type: 'text',
+          placeholder: 'Ej: SALA-001'
+        }
+      ],
+      buttons: [
+        { text: 'Cancelar', role: 'cancel' },
+        {
+          text: 'Iniciar',
+          handler: async (data) => {
+            if (!data.salaId) return;
+            // Usamos el usuario actual
+            const user = this.firebaseService.auth.currentUser;
+            const teacherName = user?.email || 'Profesor';
+            const teacherId = user?.uid || 'unknown';
+
+            const exito = await this.firebaseService.startClass(data.salaId, teacherName, teacherId);
+            const toast = await this.alertController.create({
+              header: exito ? 'Clase Iniciada' : 'Error',
+              message: exito ? `El QR "${data.salaId}" ahora es válido por 90 min.` : 'No se pudo iniciar.',
+              buttons: ['OK']
+            });
+            await toast.present();
+          }
+        }
+      ]
+    });
+    await confirm.present();
   }
 }

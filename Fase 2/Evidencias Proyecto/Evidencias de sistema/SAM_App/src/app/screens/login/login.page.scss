@@ -1,28 +1,139 @@
-/* frontend/src/app/screens/login/login.page.scss */
+/* LOGIN PAGE STYLES */
 
-/* Oculta la barra de herramientas superior */
-ion-header {
-  display: none;
+ion-content.login-content {
+  --background: #09090b;
+  /* Fondo muy oscuro */
 }
 
-/*FUERZA el fondo oscuro en esta página */
-ion-content {
-  --background: #121212; // Fondo oscuro estándar
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: radial-gradient(circle at top right, #1e293b 0%, #09090b 60%);
 }
 
-/*Centra el título y lo hace VISIBLE (blanco) */
-h1 {
-  margin-top: 30px;
+.login-card {
+  background: #18181b;
+  width: 100%;
+  max-width: 400px;
+  padding: 40px 30px;
+  border-radius: 24px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  border: 1px solid #27272a;
+  text-align: center;
+}
+
+/* HEADER */
+.login-header {
   margin-bottom: 30px;
-  font-weight: bold;
-  color: #ffffff; // <-- Color blanco para que se vea
+
+  .app-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: white;
+  }
+
+  p {
+    margin: 8px 0 0;
+    color: #a1a1aa;
+    font-size: 0.95rem;
+  }
 }
 
-/* Le da el estilo gris de "input relleno" del mockup 
-    a los campos de texto
-*/
-ion-item[fill="solid"] {
-  --background: #2c2c2e; // Un gris oscuro, como en el mockup
-  border-radius: 10px; // Redondeado como el mockup
-  margin-bottom: 15px; // Espacio
+/* FORM */
+.input-group {
+  background: #27272a;
+  border-radius: 12px;
+  padding: 5px 15px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  border: 1px solid transparent;
+  transition: border-color 0.2s;
+
+  &:focus-within {
+    border-color: #3b82f6;
+  }
+
+  ion-icon {
+    font-size: 20px;
+    color: #71717a;
+    margin-right: 10px;
+  }
+
+  ion-input {
+    --padding-start: 0;
+    --placeholder-color: #71717a;
+    --color: white;
+    font-size: 0.95rem;
+  }
+}
+
+.error-msg {
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.login-btn {
+  width: 100%;
+  --background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  --background-hover: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  --box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+  --border-radius: 12px;
+  font-weight: 700;
+  margin-top: 20px;
+  height: 52px;
+  font-size: 1.05rem;
+  letter-spacing: 0.5px;
+  transition: transform 0.2s;
+  --color: white !important;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.register-link {
+  margin-top: 25px;
+  font-size: 0.9rem;
+  color: #a1a1aa;
+
+  a {
+    color: #60a5fa;
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 5px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+/* MOBILE ADAPTATION */
+@media (max-width: 480px) {
+  .login-card {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    padding: 0;
+  }
+
+  .login-container {
+    background: #09090b;
+    /* Solid dark on mobile */
+  }
 }

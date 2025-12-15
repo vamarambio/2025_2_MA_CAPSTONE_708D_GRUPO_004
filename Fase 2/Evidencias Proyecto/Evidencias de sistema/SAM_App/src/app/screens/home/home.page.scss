@@ -1,94 +1,241 @@
-ion-toolbar { --background: #000000; }
-
-.header-section {
-  margin-bottom: 20px;
-  p { color: #9d9fa6; margin-top: 5px; }
+ion-toolbar {
+  --background: #000000;
 }
 
-/* === TARJETAS GENERALES === */
-.menu-card {
-  background-color: #1c1c1e;
-  border-radius: 20px;
+.home-content {
+  --background: #121212;
+  /* Fondo oscuro moderno */
+}
+
+.home-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+/* HERO SECTION */
+.hero-section {
+  padding: 20px 0;
+  margin-bottom: 20px;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: white;
+    margin: 0;
+  }
+
+  p {
+    color: #a1a1aa;
+    font-size: 1rem;
+    margin-top: 5px;
+  }
+}
+
+/* ACTION CARDS (Main Buttons) */
+.action-card {
+  background: #1e1e20;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+  border: 1px solid #27272a;
+  height: 100%;
+
+  &:hover {
+    background: #27272a;
+    transform: translateY(-2px);
+  }
+
+  .icon-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .card-info {
+    flex: 1;
+
+    h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: white;
+    }
+
+    p {
+      margin: 4px 0 0;
+      font-size: 0.85rem;
+      color: #a1a1aa;
+    }
+  }
+
+  .arrow-icon {
+    font-size: 20px;
+    color: #52525b;
+  }
+}
+
+/* Colores de Iconos */
+.bg-blue {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+}
+
+.bg-green {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+}
+
+.bg-yellow {
+  background: rgba(234, 179, 8, 0.15);
+  color: #facc15;
+}
+
+/* HELP SECTION */
+.section-title {
+  margin-top: 30px;
+  margin-bottom: 15px;
+
+  h2 {
+    font-size: 1.2rem;
+    color: white;
+    font-weight: 600;
+  }
+}
+
+.help-card {
+  background: #1e1e20;
+  border-radius: 12px;
   padding: 20px;
   text-align: center;
-  height: 140px;
+  border: 1px solid #27272a;
+  cursor: pointer;
+  transition: all 0.2s;
+  height: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 10px;
+
+  &:hover {
+    background: #27272a;
+    transform: translateY(-2px);
+  }
+
+  ion-icon {
+    font-size: 32px;
+  }
+
+  span {
+    font-size: 0.9rem;
+    color: #e4e4e7;
+    font-weight: 500;
+  }
+}
+
+/* DEMO FOOTER */
+.demo-footer {
+  margin-top: 40px;
+  text-align: center;
+  border-top: 1px solid #27272a;
+  padding-top: 20px;
+}
+
+.ripple-parent {
   position: relative;
-  transition: transform 0.1s;
-  margin-bottom: 10px;
-
-  &:active { transform: scale(0.98); }
-
-  h3 {
-    font-size: 15px;
-    margin-top: 12px;
-    font-weight: 600;
-    color: white;
-  }
-}
-
-/* Tarjeta Horizontal */
-.menu-card.horizontal {
-  height: 80px;
-  flex-direction: row;
-  justify-content: flex-start;
-  padding: 0 20px;
-  h3 { margin-top: 0; margin-left: 15px; }
-}
-
-/* === TAMAÑOS DE ÍCONOS === */
-/* Sin círculos de fondo, solo el ícono grande */
-.big-icon {
-  font-size: 48px; /* Ícono grande para las tarjetas principales */
-  margin-bottom: 5px;
-}
-
-.medium-icon {
-  font-size: 32px; /* Ícono mediano para listas */
-}
-
-/* === COLORES DE LOS ÍCONOS === */
-.color-blue { color: #3880ff; }
-.color-green { color: #2dd36f; }
-.color-red { color: #eb445a; }
-.color-yellow { color: #ffc409; }
-
-
-/* === ACORDEÓN === */
-.help-accordion {
-  background: #1c1c1e;
-  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-.accordion-header {
-  --background: #1c1c1e;
-  --color: white;
-  --min-height: 90px;
-  
-  h2 { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
-  p { color: #9ca3af; font-size: 13px; margin: 0; }
-}
+/* HEADER ICONS */
+/* HEADER ICONS */
+.header-icon-btn {
+  --padding-start: 8px !important;
+  --padding-end: 8px !important;
+  height: 40px !important;
+  width: 40px !important;
+  margin-left: 8px;
+  --border-radius: 50% !important;
+  --background: rgba(255, 255, 255, 0.1) !important;
+  --color: white !important;
+  transition: all 0.2s;
 
-.accordion-content {
-  background: #252528;
-  
-  ion-item {
-    --background: transparent;
-    --color: #e5e7eb;
-    --border-color: #3f3f46;
-    font-size: 15px;
-    
-    /* Íconos dentro del acordeón */
-    ion-icon {
-      font-size: 22px;
-      margin-right: 12px;
-    }
+  ion-icon {
+    font-size: 20px;
   }
 }
 
-.ripple-parent { position: relative; overflow: hidden; }
+.header-icon-btn:hover {
+  --background: rgba(255, 255, 255, 0.2) !important;
+  transform: scale(1.05);
+}
+
+.header-icon-btn.admin-btn {
+  --color: #fbbf24 !important;
+  /* Warning color */
+  --background: rgba(251, 191, 36, 0.15) !important;
+}
+
+.header-icon-btn.admin-btn:hover {
+  --background: rgba(251, 191, 36, 0.25) !important;
+}
+
+.header-icon-btn.logout-btn {
+  --color: #ef4444 !important;
+  /* Danger color */
+  --background: rgba(239, 68, 68, 0.15) !important;
+}
+
+.header-icon-btn.logout-btn:hover {
+  --background: rgba(239, 68, 68, 0.25) !important;
+}
+
+/* DEMO BUTTON */
+.demo-btn {
+  --border-color: #3f3f46 !important;
+  --color: #71717a !important;
+  --border-radius: 20px !important;
+  --padding-start: 20px;
+  --padding-end: 20px;
+  height: 40px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  --background: transparent !important;
+  /* Force transparent background */
+
+  &:hover {
+    --border-color: #52525b !important;
+    --color: #a1a1aa !important;
+    --background: rgba(255, 255, 255, 0.05) !important;
+  }
+}
+
+
+/* DEMO BUTTON */
+.demo-btn {
+  --border-color: #3f3f46;
+  --color: #71717a;
+  --border-radius: 20px;
+  --padding-start: 20px;
+  --padding-end: 20px;
+  height: 40px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s;
+
+  &:hover {
+    --border-color: #52525b;
+    --color: #a1a1aa;
+    --background: rgba(255, 255, 255, 0.05);
+  }
+}

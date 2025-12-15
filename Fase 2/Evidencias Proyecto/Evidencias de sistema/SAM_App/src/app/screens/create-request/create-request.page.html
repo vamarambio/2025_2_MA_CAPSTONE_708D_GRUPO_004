@@ -14,6 +14,22 @@
   </div>
 
   <ion-list>
+    <!-- Sala (Solo lectura) -->
+    <ion-item lines="none" class="custom-input" *ngIf="salaId">
+      <ion-label position="stacked">Sala</ion-label>
+      <ion-input [value]="salaId" readonly></ion-input>
+    </ion-item>
+
+    <!-- Selector de Tipo -->
+    <ion-item lines="none" class="custom-input">
+      <ion-label position="stacked">Tipo de Ayuda</ion-label>
+      <ion-select [(ngModel)]="requestType" placeholder="Selecciona servicio">
+        <ion-select-option value="guardias">Seguridad / Guardias</ion-select-option>
+        <ion-select-option value="enfermeria">Enfermería / Primeros Auxilios</ion-select-option>
+        <ion-select-option value="cetecom">Soporte TI (Cetecom)</ion-select-option>
+        <ion-select-option value="general">Otro / General</ion-select-option>
+      </ion-select>
+    </ion-item>
     <ion-item lines="none" class="custom-input">
       <ion-input placeholder="Asunto (ej. Dolor de cabeza)" [(ngModel)]="titulo"></ion-input>
     </ion-item>

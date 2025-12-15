@@ -1,0 +1,38 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="black">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Servicios Disponibles</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" style="--background: #000000;">
+  <ion-list style="background: transparent;">
+    
+    <ion-item button detail="true" [routerLink]="['/create-request']" [queryParams]="{ type: 'guardias' }" lines="full" style="--background: #1c1c1e; --color: white; border-radius: 12px; margin-bottom: 10px;">
+      <ion-icon name="shield-checkmark-outline" slot="start" color="success" style="font-size: 24px;"></ion-icon>
+      <ion-label>
+        <h2>GUARDIAS</h2>
+        <p>Reportar incidente de seguridad</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item button detail="true" [routerLink]="['/create-request']" [queryParams]="{ type: 'cetecom' }" lines="full" style="--background: #1c1c1e; --color: white; border-radius: 12px; margin-bottom: 10px;">
+      <ion-icon name="desktop-outline" slot="start" color="tertiary" style="font-size: 24px;"></ion-icon>
+      <ion-label>
+        <h2>CETECOM</h2>
+        <p>Problemas con equipos o redes</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item button detail="true" [routerLink]="['/create-request']" [queryParams]="{ type: 'enfermeria' }" lines="none" style="--background: #1c1c1e; --color: white; border-radius: 12px; margin-bottom: 10px;">
+      <ion-icon name="medkit-outline" slot="start" color="danger" style="font-size: 24px;"></ion-icon>
+      <ion-label>
+        <h2>ENFERMERÍA</h2>
+        <p>Solicitar primeros auxilios</p>
+      </ion-label>
+    </ion-item>
+
+  </ion-list>
+</ion-content>

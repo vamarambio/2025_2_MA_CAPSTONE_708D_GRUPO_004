@@ -1,0 +1,209 @@
+<ion-content class="admin-layout">
+  <div class="admin-container">
+
+    <!-- MOBILE OVERLAY -->
+    <div class="sidebar-overlay" [class.show]="isMenuOpen" (click)="toggleMenu()"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" [class.open]="isMenuOpen">
+      <div class="brand">
+        <h2>Admin Panel</h2>
+        <p>Duoc Assist</p>
+      </div>
+
+      <nav class="nav-menu">
+        <button class="nav-item" [class.active]="segmento === 'reportes'"
+          (click)="segmento = 'reportes'; segmentChanged()">
+          <ion-icon name="document-text-outline"></ion-icon> Reportes
+        </button>
+        <button class="nav-item" [class.active]="segmento === 'usuarios'"
+          (click)="segmento = 'usuarios'; segmentChanged()">
+          <ion-icon name="people-outline"></ion-icon> Usuarios
+        </button>
+        <button class="nav-item" [class.active]="segmento === 'stats'" (click)="segmento = 'stats'; segmentChanged()">
+          <ion-icon name="bar-chart-outline"></ion-icon> Estadísticas
+        </button>
+        <button class="nav-item" (click)="sincronizarUsuarios()"
+          style="margin-top: 20px; color: #2dd36f; border: 1px solid #2dd36f20; background: #2dd36f10;">
+          <ion-icon name="sync-outline"></ion-icon> Sincronizar
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-tools">
+          <button class="tool-btn" (click)="poblarBD()" [disabled]="poblandoBD"
+            style="width: 100%; background: rgba(245, 158, 11, 0.2) !important; color: #fbbf24 !important; border: 1px solid rgba(245, 158, 11, 0.4) !important; padding: 12px; border-radius: 8px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer;">
+            <ion-spinner name="crescent" *ngIf="poblandoBD"></ion-spinner>
+            <ion-icon name="construct-outline" *ngIf="!poblandoBD"></ion-icon>
+            <span>{{ poblandoBD ? 'Procesando...' : 'Poblar BD' }}</span>
+          </button>
+        </div>
+        <button class="logout-btn" (click)="logout()"
+          style="width: 100%; background: rgba(239, 68, 68, 0.2) !important; color: #ef4444 !important; border: 1px solid rgba(239, 68, 68, 0.4) !important; padding: 12px; border-radius: 8px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer;">
+          <ion-icon name="log-out-outline"></ion-icon> Cerrar Sesión
+        </button>
+      </div>
+    </aside>
+
+    <!-- CONTENT AREA -->
+    <main class="content-area">
+
+      <!-- HEADER -->
+      <header class="top-bar">
+        <button class="menu-toggle" (click)="toggleMenu()">
+          <ion-icon name="menu-outline"></ion-icon>
+        </button>
+        <h1>{{ getTitle() }}</h1>
+        <ion-button fill="clear" (click)="cargarDatos()">
+          <ion-icon name="refresh-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </header>
+
+      <!-- VISTA REPORTES -->
+      <div *ngIf="segmento === 'reportes'" class="view-container">
+        <div class="table-card">
+          <table>
+            <thead>
+              <tr>
+                <th>Tipo</th>
+                <th>Solicitante</th>
+                <th>Asunto</th>
+                <th>Estado</th>
+                <th>Asignado a</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let req of requests">
+                <td><ion-badge [color]="getBadgeColor(req.type)">{{ req.type | uppercase }}</ion-badge></td>
+                <td>{{ req.requesterEmail }}</td>
+                <td><strong>{{ req.titulo }}</strong><br><small>{{ req.descripcion }}</small></td>
+                <td>
+                  <ion-chip [color]="req.status === 'open' ? 'danger' : 'success'">
+                    {{ req.status === 'open' ? 'PENDIENTE' : 'RESUELTO' }}
+                  </ion-chip>
+                </td>
+                <td>
+                  <ion-text [color]="req.assignedTo ? 'primary' : 'medium'">
+                    {{ getUserEmail(req.assignedTo) }}
+                  </ion-text>
+                </td>
+                <td>
+                  <ion-button *ngIf="req.status === 'open'" size="small" (click)="asignarTicket(req)" color="tertiary">
+                    Asignar
+                  </ion-button>
+                  <ion-button *ngIf="req.status === 'open'" size="small" (click)="cambiarEstado(req, 'resolved')"
+                    color="success">Resolver</ion-button>
+                  <ion-button *ngIf="req.status === 'resolved'" size="small" (click)="cambiarEstado(req, 'open')"
+                    color="medium">Reabrir</ion-button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- VISTA USUARIOS -->
+      <div *ngIf="segmento === 'usuarios'" class="view-container">
+        <div class="table-card">
+          <table>
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Rol Actual</th>
+                <th>Cambiar Rol</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of users">
+                <td>{{ user.email }}</td>
+                <td><ion-badge color="tertiary">{{ user.role }}</ion-badge></td>
+                <td>
+                  <ion-select interface="popover" placeholder="Asignar" [value]="user.role"
+                    (ionChange)="cambiarRol(user, $event)">
+                    <ion-select-option value="student">Estudiante</ion-select-option>
+                    <ion-select-option value="teacher">Profesor</ion-select-option>
+                    <ion-select-option value="guardias">Guardia</ion-select-option>
+                    <ion-select-option value="enfermeria">Enfermero/a</ion-select-option>
+                    <ion-select-option value="cetecom">Cetecom</ion-select-option>
+                    <ion-select-option value="admin">Admin</ion-select-option>
+                  </ion-select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- VISTA ESTADISTICAS -->
+      <div *ngIf="segmento === 'stats'" class="view-container stats-view">
+
+        <!-- KPI CARDS -->
+        <div class="kpi-grid">
+          <div class="kpi-card blue">
+            <h3>Total Tickets</h3>
+            <p class="number">{{ requests.length }}</p>
+          </div>
+          <div class="kpi-card red">
+            <h3>Pendientes</h3>
+            <p class="number">{{ countStatus('open') }}</p>
+          </div>
+          <div class="kpi-card green">
+            <h3>Resueltos</h3>
+            <p class="number">{{ countStatus('resolved') }}</p>
+          </div>
+        </div>
+
+        <!-- CHARTS ROW -->
+        <div class="charts-grid">
+          <div class="chart-card">
+            <h3>Tickets por Servicio</h3>
+            <div class="chart-wrapper">
+              <canvas id="serviceChart"></canvas>
+            </div>
+          </div>
+          <div class="chart-card">
+            <h3>Salas con más Incidentes</h3>
+            <div class="chart-wrapper">
+              <canvas id="roomChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- CUSTOM MODAL FOR DB SEEDING -->
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="setOpen(false)" class="custom-modal">
+    <ng-template>
+      <div class="modal-content">
+        <div class="modal-header">
+          <ion-icon name="warning-outline" color="warning"></ion-icon>
+          <h2>Poblar Base de Datos</h2>
+        </div>
+        <div class="modal-body">
+          <p>Esta acción generará datos de prueba automáticos:</p>
+          <ul>
+            <li>Usuarios (Estudiantes, Profesores, Admin)</li>
+            <li>Clases y Asignaturas</li>
+            <li>Reportes de prueba</li>
+          </ul>
+          <div class="warning-box">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            <span>Solo para entornos de desarrollo.</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <ion-button fill="clear" color="medium" (click)="setOpen(false)">Cancelar</ion-button>
+          <ion-button color="warning" (click)="confirmarPoblar()">
+            <ion-icon name="construct-outline" slot="start"></ion-icon>
+            Sí, crear datos
+          </ion-button>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>
